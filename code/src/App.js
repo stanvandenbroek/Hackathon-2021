@@ -1,41 +1,26 @@
-import React, { useEffect, useState } from "react";
-import * as Charts from "@ant-design/charts";
+import React, { useState } from "react";
 import './App.css';
-import preData from "./data/pre-data.json";
-import postData from "./data/post-data.json";
-import { Button, Layout, Menu, Row } from 'antd';
-const { DateTime } = require("luxon");
+import first from "./images/1.png";
+import second from "./images/2.png";
+import third from "./images/3.png";
+import fourth from "./images/4.png";
+import fifth from "./images/5.png";
 
-const { Header, Content } = Layout;
-
-const JsonData = {
-  preData,
-  postData
-}
+const images = [first, second, third, fourth, fifth];
 
 function App() {
-  const [graphData, setGraphData] = useState('preData');
-  const [time, setTime] = useState(DateTime.now());
+  const [index, setIndex] = useState(0);
 
-  React.useEffect(() => {
-    const timer = setInterval(() => {
-      setTime(DateTime.now());
-    }, 5 * 1000);
-    return () => {
-      clearInterval(timer);
+  const increaseIndex = () => {
+    if (index < images.length - 1) {
+      setIndex(index + 1);
     }
-  }, []);
+  }
 
   return (
-    <div className="p-12">
-      <div className="mb-12">
-        <div className="text-3xl text-pink-600 float-right">{time.toLocaleString(DateTime.TIME_24_SIMPLE)}</div>
-        <div className="text-3xl font-bold text-pink-600">Energieverbruik</div>
-        <div className="text-xl">Graafsewijk, 's-Hertogenbosch</div>
-      </div>
-
-      <Charts.Line className="mb-12" lineStyle={{ stroke: 'green' }} smooth={true} xField="time" yField="value" yMax data={JsonData[graphData]}></Charts.Line>
-      <Button type="primary" onClick={() => setGraphData('postData')}>Change Data</Button>
+    <div>
+      <div className="bg-transparent w-full h-16 absolute" onClick={() => setIndex(0)}></div>
+      <img src={images[index]} alt={"empty"} onClick={() => increaseIndex()} />
     </div>
   );
 }
